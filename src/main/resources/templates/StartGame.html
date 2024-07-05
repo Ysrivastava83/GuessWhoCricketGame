@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Player List</title>
+  <style>
+        /* General body styling */
+        body {
+            font-family: Arial, sans-serif; /* Use a clean, readable font */
+            background-color: #f4f4f9; /* Light background color */
+            margin: 0;
+            padding: 20px; /* Padding around the content */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally */
+        }
+
+        /* Styling for headers */
+        h1, h2 {
+            color: #333; /* Dark gray color for headers */
+            text-align: center; /* Center align headers */
+        }
+
+        /* Wrapper for centering the table */
+        .table-container {
+            width: 100%; /* Full width container */
+            display: flex;
+            justify-content: center; /* Center the table horizontally */
+        }
+
+        /* Table styling */
+        table {
+            width: 80%; /* Set table width to 80% of the container */
+            border-collapse: collapse; /* Remove space between table cells */
+            margin: 20px 0; /* Space around the table */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle box shadow for a floating effect */
+        }
+
+        /* Styling for table header and data cells */
+        th, td {
+            padding: 12px 15px; /* Padding inside cells */
+            text-align: left; /* Align text to the left */
+        }
+
+        /* Styling for the table header row */
+        thead {
+            background-color: #009879; /* Green background for header */
+            color: #ffffff; /* White text color */
+        }
+
+        /* Styling for table body rows */
+        tbody tr {
+            border-bottom: 1px solid #dddddd; /* Light gray border between rows */
+        }
+
+        /* Styling for even rows */
+        tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3; /* Light gray background for even rows */
+        }
+
+        /* Styling for the last row */
+        tbody tr:last-of-type {
+            border-bottom: 2px solid #009879; /* Darker bottom border for the last row */
+        }
+
+        /* Hover effect for rows */
+        tbody tr:hover {
+            background-color: #f1f1f1; /* Slightly darker background on hover */
+        }
+
+        /* Styling for the submit button */
+        button {
+            background-color: #009879; /* Green background color */
+            color: white; /* White text color */
+            padding: 10px 20px; /* Padding inside the button */
+            border: none; /* Remove default border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+            font-size: 16px; /* Larger font size */
+        }
+
+        /* Hover effect for the button */
+        button:hover {
+            background-color: #007f63; /* Darker green on hover */
+        }
+    </style>
+</head>
+<body>
+<!-- Main heading -->
+<h1>Random 15 players selected for the Game</h1>
+<!-- Subheading -->
+<h2>Select your hidden player for the Game</h2>
+<!-- Wrapper to center the table -->
+<div class="table-container">
+  <!-- Form to submit the selected player -->
+  <form action="/game/gameon" method="post">
+    <table>
+      <!-- Table header -->
+      <thead>
+      <tr>
+        <th>Select</th>
+        <th>Serial Number</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Nation</th>
+        <th>Style</th>
+        <th>Nature</th>
+        <th>Hair</th>
+      </tr>
+      </thead>
+      <!-- Table body populated with Thymeleaf -->
+      <tbody>
+      <!-- Loop through each player and display their information -->
+      <tr th:each="player, stat : ${Selected}">
+        <!-- Radio button to select player -->
+        <td><input type="radio" name="selectedplayer" th:value="${player.player_id}" /></td>
+        <!-- Serial number -->
+        <td th:text="${stat.index + 1}"></td>
+        <!-- Player's name -->
+        <td th:text="${player.player_name}"></td>
+        <!-- Player's age -->
+        <td th:text="${player.player_age}"></td>
+        <!-- Player's nation -->
+        <td th:text="${player.player_nation}"></td>
+        <!-- Player's style -->
+        <td th:text="${player.player_style}"></td>
+        <!-- Player's nature -->
+        <td th:text="${player.player_nature}"></td>
+        <!-- Player's hair -->
+        <td th:text="${player.player_hair}"></td>
+      </tr>
+      </tbody>
+    </table>
+    <!-- Submit button -->
+    <button type="submit">Select Player</button>
+  </form>
+</div>
+</body>
+</html>

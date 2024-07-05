@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Game On</title>
+  <style>
+    /* General styling for the entire page */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-image: url('https://images7.alphacoders.com/869/869190.jpg'); /* Background image of the pitch */
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* Container for the main content */
+    .container {
+      width: 80%;
+      max-height: 90vh; /* Maximum height of the container */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: hidden; /* Prevent overflow of content */
+    }
+
+    /* Styling for the pitch area where player lists are shown */
+    .pitch {
+      position: relative;
+      width: 100%;
+      flex: 1; /* Take available space */
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 5%;
+    }
+
+    /* Styling for each team's player list */
+    .team {
+      width: 45%;
+      padding: 10px;
+      background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background for readability */
+      border-radius: 8px;
+    }
+
+    /* Styling for team headers */
+    .team h2 {
+      margin-bottom: 10px;
+      font-size: 20px;
+      text-align: center;
+    }
+
+    /* Styling for the player list */
+    .team ul {
+      list-style-type: none;
+      padding: 0;
+      text-align: center;
+    }
+
+    /* Styling for each player name */
+    .team li {
+      margin-bottom: 5px;
+      font-size: 16px;
+    }
+
+    /* Styling for the questions section */
+    .questions {
+      width: 100%;
+      padding: 20px;
+      margin-top: 20px;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow-y: auto; /* Allows scrolling if content overflows */
+    }
+
+    /* Styling for question titles */
+    .question-title {
+      cursor: pointer;
+      font-size: 18px;
+      padding: 10px;
+      background-color: #e9ecef; /* Gray background color for question title */
+      border-radius: 8px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    /* Styling for radio button options */
+    .options {
+      display: none; /* Initially hidden */
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .options form {
+      display: flex;
+      justify-content: center; /* Center items horizontally */
+    }
+
+    .options label {
+      margin-right: 10px; /* Spacing between radio buttons */
+    }
+
+    /* Styling for submit button */
+    .submit-button {
+      margin-top: 10px;
+      padding: 8px 16px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* Hover effect for submit button */
+    .submit-button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Active state for options */
+    .active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+<h1>Game On</h1>
+
+<div class="container">
+  <div class="pitch">
+    <div class="team">
+      <h2>Computer</h2>
+      <ul>
+        <!-- Loop through P1 player list and display each player name -->
+        <li th:each="player : ${P1}" th:text="${player.player_name}"></li>
+      </ul>
+    </div>
+
+    <div class="team">
+      <h2>You</h2>
+      <ul>
+        <!-- Loop through P2 player list and display each player name -->
+        <li th:each="player : ${P2}" th:text="${player.player_name}"></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="questions">
+    <!-- Question about player's country -->
+    <div class="question">
+      <div class="question-title" onclick="toggleOptions('options1')">What is the country of the player?</div>
+      <div class="options" id="options1">
+        <form action="/game/byCountry" method="post">
+          <label><input type="radio" name="Country" value="India"> India</label>
+          <label><input type="radio" name="Country" value="Australia"> Australia</label>
+          <label><input type="radio" name="Country" value="New Zealand"> New Zealand</label>
+          <button type="submit" class="submit-button">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Question about player's nature -->
+    <div class="question">
+      <div class="question-title" onclick="toggleOptions('options2')">What is the nature of the player?</div>
+      <div class="options" id="options2">
+        <form action="/game/byNature" method="post">
+          <label><input type="radio" name="Nature" value="Aggressive"> Aggressive</label>
+          <label><input type="radio" name="Nature" value="Moderate"> Moderate</label>
+          <label><input type="radio" name="Nature" value="Defensive"> Defensive</label>
+          <button type="submit" class="submit-button">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Question about player's playing style -->
+    <div class="question">
+      <div class="question-title" onclick="toggleOptions('options3')">What is the playing style of the player?</div>
+      <div class="options" id="options3">
+        <form action="/game/byStyle" method="post">
+          <label><input type="radio" name="Style" value="Batsman"> Batsman</label>
+          <label><input type="radio" name="Style" value="All Rounder"> All Rounder</label>
+          <label><input type="radio" name="Style" value="Bowler"> Bowler</label>
+          <button type="submit" class="submit-button">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Question about player's Hairstyle -->
+    <div class="question">
+      <div class="question-title" onclick="toggleOptions('options4')">What is the Hairstyle of the player?</div>
+      <div class="options" id="options4">
+        <form action="/game/byHair" method="post">
+          <label><input type="radio" name="Hair" value="Short"> Short</label>
+          <label><input type="radio" name="Hair" value="Medium"> Medium</label>
+          <label><input type="radio" name="Hair" value="Long"> Long</label>
+          <button type="submit" class="submit-button">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Question about player's age -->
+    <div class="question">
+      <div class="question-title" onclick="toggleOptions('options5')">What is the Age of the player?</div>
+      <div class="options" id="options5">
+        <form action="/game/byAge" method="post">
+          <label><input type="radio" name="Age" value="below 35"> Below 35</label>
+          <label><input type="radio" name="Age" value="35-40"> 35-40</label>
+          <label><input type="radio" name="Age" value="above 40"> Above 40</label>
+          <button type="submit" class="submit-button">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function toggleOptions(optionsId) {
+    const options = document.getElementById(optionsId);
+    const allOptions = document.querySelectorAll('.options');
+
+    allOptions.forEach(opt => {
+      if (opt.id === optionsId) {
+        opt.classList.toggle('active');
+      } else {
+        opt.classList.remove('active');
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
