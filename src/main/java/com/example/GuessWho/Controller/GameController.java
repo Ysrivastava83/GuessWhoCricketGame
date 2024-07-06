@@ -29,6 +29,7 @@ public class GameController
     private List<Players> temp;
     private Players pl1;
     private Players pl2;
+    private Players a;
 
     @RequestMapping("/")
     public String  playGame(Model model)
@@ -72,15 +73,18 @@ public class GameController
                     .filter(player -> player.getPlayer_nation().equals(option))
                     .collect(Collectors.toList());
         }
+
         listp1=computerService.randomSelect(listp1,pl1,pl2);
         if(listp2.size()==1)
         {
-            m.addAttribute("ans",listp2);
+            a=pl1;
+            m.addAttribute("ans",a);
             return "Result2";
         }
         if(listp1.size()==1)
         {
-            m.addAttribute("ans",listp1);
+            a=pl2;
+            m.addAttribute("ans",a);
             return "Result1";
         }
         m.addAttribute("P1",listp1);
@@ -104,12 +108,14 @@ public class GameController
         listp1=computerService.randomSelect(listp1,pl1,pl2);
         if(listp2.size()==1)
         {
-            m.addAttribute("ans",listp2);
+            a=pl1;
+            m.addAttribute("ans",a);
             return "Result2";
         }
         if(listp1.size()==1)
         {
-            m.addAttribute("ans",listp1);
+            a=pl2;
+            m.addAttribute("ans",a);
             return "Result1";
         }
         m.addAttribute("P1",listp1);
@@ -133,12 +139,14 @@ public class GameController
         listp1=computerService.randomSelect(listp1,pl1,pl2);
         if(listp2.size()==1)
         {
-            m.addAttribute("ans",listp2);
+            a=pl1;
+            m.addAttribute("ans",a);
             return "Result2";
         }
         if(listp1.size()==1)
         {
-            m.addAttribute("ans",listp1);
+            a=pl2;
+            m.addAttribute("ans",a);
             return "Result1";
         }
         m.addAttribute("P1",listp1);
@@ -162,12 +170,14 @@ public class GameController
         listp1=computerService.randomSelect(listp1,pl1,pl2);
         if(listp2.size()==1)
         {
-            m.addAttribute("ans",listp2);
+            a=pl1;
+            m.addAttribute("ans",a);
             return "Result2";
         }
         if(listp1.size()==1)
         {
-            m.addAttribute("ans",listp1);
+            a=pl2;
+            m.addAttribute("ans",a);
             return "Result1";
         }
         m.addAttribute("P1",listp1);
@@ -202,12 +212,14 @@ public class GameController
         listp1=computerService.randomSelect(listp1,pl1,pl2);
         if(listp2.size()==1)
         {
-            m.addAttribute("ans",listp2);
+            a=pl1;
+            m.addAttribute("ans",a);
             return "Result2";
         }
         if(listp1.size()==1)
         {
-            m.addAttribute("ans",listp1);
+            a=pl2;
+            m.addAttribute("ans",a);
             return "Result1";
         }
         m.addAttribute("P1",listp1);

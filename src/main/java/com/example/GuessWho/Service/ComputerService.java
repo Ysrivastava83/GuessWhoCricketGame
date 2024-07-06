@@ -75,7 +75,7 @@ public class ComputerService
             if((randomplayer.getPlayer_age()>=35 && randomplayer.getPlayer_age()<=40) && (pl1.getPlayer_age()>=35 && pl1.getPlayer_age()<=40))
             {
                 listp1 = temp.stream()
-                        .filter(player -> player.getPlayer_age()>35)
+                        .filter(player -> player.getPlayer_age()>=35 && player.getPlayer_age()<=40 )
                         .collect(Collectors.toList());
                 return listp1;
             }
