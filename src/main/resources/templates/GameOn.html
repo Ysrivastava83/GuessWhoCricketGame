@@ -3,7 +3,180 @@
 <head>
   <meta charset="UTF-8">
   <title>Game On</title>
-  <link rel="stylesheet" href="/GameOn.css"> <!-- Link to external CSS file -->
+  <style>
+    /* General styling for the entire page */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh; /* Ensure full viewport height */
+      background-image: url('https://images7.alphacoders.com/869/869190.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+
+    h1 {
+      color: #ffffff;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    /* Container for the main content */
+    .container {
+      width: 90%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: hidden;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 20px 40px 30px;
+      border-radius: 8px;
+    }
+
+    /* Styling for the pitch area where player lists are shown */
+    .pitch {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 0;
+    }
+
+    /* Styling for each team's player list */
+    .team {
+      width: 45%;
+    }
+
+    /* Styling for team headers */
+    .team h2 {
+      margin-bottom: 10px;
+      font-size: 20px;
+      text-align: center;
+    }
+
+    /* Grid styling for players */
+    .team ul {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* Styling for each player name */
+    .team li {
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      border-radius: 4px;
+      font-size: 14px;
+      box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      cursor: pointer;
+      position: relative; /* Ensure relative positioning for absolute child */
+    }
+
+    /* Hover effect for player name */
+    .team li:hover {
+      background-color: #45a049;
+      transform: scale(1.05); /* Scale up slightly on hover */
+      z-index: 1; /* Ensure hovered item is above others */
+    }
+
+    /* Additional attributes display */
+    .player-details {
+      position: fixed; /* Position fixed to ensure it's above everything */
+      top: calc(50% - 100px);
+      left: calc(50% - 100px);
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      z-index: 10000; /* Ensure details are above all other content */
+      text-align: left;
+      width: 200px; /* Adjust width as needed */
+      font-size: 12px; /* Adjust font size for details */
+    }
+
+    .team li:hover .player-details {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* Styling for the questions section */
+    .questions {
+      width: 100%;
+      padding: 20px;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow-y: auto; /* Allows scrolling if content overflows */
+      margin-top: auto; /* Push questions section to the bottom */
+    }
+
+    /* Styling for question titles */
+    .question-title {
+      cursor: pointer;
+      font-size: 18px;
+      padding: 10px;
+      background-color: #e9ecef; /* Gray background color for question title */
+      border-radius: 8px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    /* Styling for radio button options */
+    .options {
+      display: none; /* Initially hidden */
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .options form {
+      display: flex;
+      justify-content: center; /* Center items horizontally */
+    }
+
+    .options label {
+      margin-right: 10px; /* Spacing between radio buttons */
+    }
+
+    /* Styling for submit button */
+    .submit-button {
+      margin-top: 10px;
+      padding: 8px 16px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* Hover effect for submit button */
+    .submit-button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Active state for options */
+    .active {
+      display: block;
+    }
+
+    /* Styling for the divider between teams */
+    .divider {
+      width: 2px; /* Adjust the width of the divider as needed */
+      background-color: #ccc; /* Color of the divider */
+      margin: 0 20px; /* Space around the divider */
+    }
+  </style>
 </head>
 <body>
 <h1>Game On</h1>
@@ -11,86 +184,108 @@
 <div class="container">
   <div class="pitch">
     <div class="team">
-      <h2>Computer</h2>
+      <h2>Computer List</h2>
       <ul>
         <!-- Loop through P1 player list and display each player name -->
-        <li th:each="player : ${P1}" th:text="${player.player_name}"></li>
+        <li th:each="player : ${P1}">
+          <span th:text="${player.player_name}"></span>
+          <div class="player-details">
+            <p style="color: black;"><span style="color: red;">Name:</span> <span th:text="${player.player_name}" style="font-weight: bold;"></span></p>
+            <p style="color: black;"><span style="color: red;">Country:</span> <span th:text="${player.player_nation}"></span></p>
+            <p style="color: black;"><span style="color: red;">Nature:</span> <span th:text="${player.player_nature}"></span></p>
+            <p style="color: black;"><span style="color: red;">Style:</span> <span th:text="${player.player_style}"></span></p>
+            <p style="color: black;"><span style="color: red;">Hair:</span> <span th:text="${player.player_hair}"></span></p>
+            <p style="color: black;"><span style="color: red;">Age:</span> <span th:text="${player.player_age}"></span></p>
+          </div>
+        </li>
       </ul>
     </div>
 
+    <div class="divider"></div> <!-- Divider between Computer and You -->
+
     <div class="team">
-      <h2>You</h2>
+      <h2>Your List</h2>
       <ul>
         <!-- Loop through P2 player list and display each player name -->
-        <li th:each="player : ${P2}" th:text="${player.player_name}"></li>
+        <li th:each="player : ${P2}">
+          <span th:text="${player.player_name}"></span>
+          <div class="player-details">
+            <p style="color: black;"><span style="color: red;">Name:</span> <span th:text="${player.player_name}" style="font-weight: bold;"></span></p>
+            <p style="color: black;"><span style="color: red;">Country:</span> <span th:text="${player.player_nation}"></span></p>
+            <p style="color: black;"><span style="color: red;">Nature:</span> <span th:text="${player.player_nature}"></span></p>
+            <p style="color: black;"><span style="color: red;">Style:</span> <span th:text="${player.player_style}"></span></p>
+            <p style="color: black;"><span style="color: red;">Hair:</span> <span th:text="${player.player_hair}"></span></p>
+            <p style="color: black;"><span style="color: red;">Age:</span> <span th:text="${player.player_age}"></span></p>
+          </div>
+        </li>
       </ul>
     </div>
   </div>
+</div>
 
-  <div class="questions">
-    <!-- Question about player's country -->
-    <div class="question">
-      <div class="question-title" onclick="toggleOptions('options1')">What is the country of the player?</div>
-      <div class="options" id="options1">
-        <form action="/game/byCountry" method="post">
-          <label><input type="radio" name="Country" value="India"> India</label>
-          <label><input type="radio" name="Country" value="Australia"> Australia</label>
-          <label><input type="radio" name="Country" value="New Zealand"> New Zealand</label>
-          <button type="submit" class="submit-button">Submit</button>
-        </form>
-      </div>
+<div class="questions">
+  <!-- Question about player's country -->
+  <div class="question">
+    <div class="question-title" onclick="toggleOptions('options1')">What is the country of the player?</div>
+    <div class="options" id="options1">
+      <form action="/game/byCountry" method="post" oninput="checkSelection(this)">
+        <label><input type="radio" name="Country" value="India"> India</label>
+        <label><input type="radio" name="Country" value="Australia"> Australia</label>
+        <label><input type="radio" name="Country" value="New Zealand"> New Zealand</label>
+        <button type="submit" class="submit-button" disabled>Submit</button>
+      </form>
     </div>
+  </div>
 
-    <!-- Question about player's nature -->
-    <div class="question">
-      <div class="question-title" onclick="toggleOptions('options2')">What is the nature of the player?</div>
-      <div class="options" id="options2">
-        <form action="/game/byNature" method="post">
-          <label><input type="radio" name="Nature" value="Aggressive"> Aggressive</label>
-          <label><input type="radio" name="Nature" value="Moderate"> Moderate</label>
-          <label><input type="radio" name="Nature" value="Defensive"> Defensive</label>
-          <button type="submit" class="submit-button">Submit</button>
-        </form>
-      </div>
+  <!-- Question about player's nature -->
+  <div class="question">
+    <div class="question-title" onclick="toggleOptions('options2')">What is the nature of the player?</div>
+    <div class="options" id="options2">
+      <form action="/game/byNature" method="post" oninput="checkSelection(this)">
+        <label><input type="radio" name="Nature" value="Aggressive"> Aggressive</label>
+        <label><input type="radio" name="Nature" value="Moderate"> Moderate</label>
+        <label><input type="radio" name="Nature" value="Defensive"> Defensive</label>
+        <button type="submit" class="submit-button" disabled>Submit</button>
+      </form>
     </div>
+  </div>
 
-    <!-- Question about player's playing style -->
-    <div class="question">
-      <div class="question-title" onclick="toggleOptions('options3')">What is the playing style of the player?</div>
-      <div class="options" id="options3">
-        <form action="/game/byStyle" method="post">
-          <label><input type="radio" name="Style" value="Batsman"> Batsman</label>
-          <label><input type="radio" name="Style" value="All Rounder"> All Rounder</label>
-          <label><input type="radio" name="Style" value="Bowler"> Bowler</label>
-          <button type="submit" class="submit-button">Submit</button>
-        </form>
-      </div>
+  <!-- Question about player's playing style -->
+  <div class="question">
+    <div class="question-title" onclick="toggleOptions('options3')">What is the playing style of the player?</div>
+    <div class="options" id="options3">
+      <form action="/game/byStyle" method="post" oninput="checkSelection(this)">
+        <label><input type="radio" name="Style" value="Batsman"> Batsman</label>
+        <label><input type="radio" name="Style" value="All Rounder"> All Rounder</label>
+        <label><input type="radio" name="Style" value="Bowler"> Bowler</label>
+        <button type="submit" class="submit-button" disabled>Submit</button>
+      </form>
     </div>
+  </div>
 
-    <!-- Question about player's Hairstyle -->
-    <div class="question">
-      <div class="question-title" onclick="toggleOptions('options4')">What is the Hairstyle of the player?</div>
-      <div class="options" id="options4">
-        <form action="/game/byHair" method="post">
-          <label><input type="radio" name="Hair" value="Short"> Short</label>
-          <label><input type="radio" name="Hair" value="Medium"> Medium</label>
-          <label><input type="radio" name="Hair" value="Long"> Long</label>
-          <button type="submit" class="submit-button">Submit</button>
-        </form>
-      </div>
+  <!-- Question about player's Hairstyle -->
+  <div class="question">
+    <div class="question-title" onclick="toggleOptions('options4')">What is the Hairstyle of the player?</div>
+    <div class="options" id="options4">
+      <form action="/game/byHair" method="post" oninput="checkSelection(this)">
+        <label><input type="radio" name="Hair" value="Short"> Short</label>
+        <label><input type="radio" name="Hair" value="Medium"> Medium</label>
+        <label><input type="radio" name="Hair" value="Long"> Long</label>
+        <button type="submit" class="submit-button" disabled>Submit</button>
+      </form>
     </div>
+  </div>
 
-    <!-- Question about player's age -->
-    <div class="question">
-      <div class="question-title" onclick="toggleOptions('options5')">What is the Age of the player?</div>
-      <div class="options" id="options5">
-        <form action="/game/byAge" method="post">
-          <label><input type="radio" name="Age" value="below 35"> Below 35</label>
-          <label><input type="radio" name="Age" value="35-40"> 35-40</label>
-          <label><input type="radio" name="Age" value="above 40"> Above 40</label>
-          <button type="submit" class="submit-button">Submit</button>
-        </form>
-      </div>
+  <!-- Question about player's age -->
+  <div class="question">
+    <div class="question-title" onclick="toggleOptions('options5')">What is the Age of the player?</div>
+    <div class="options" id="options5">
+      <form action="/game/byAge" method="post" oninput="checkSelection(this)">
+        <label><input type="radio" name="Age" value="below 35"> Below 35</label>
+        <label><input type="radio" name="Age" value="35-40"> 35-40</label>
+        <label><input type="radio" name="Age" value="above 40"> Above 40</label>
+        <button type="submit" class="submit-button" disabled>Submit</button>
+      </form>
     </div>
   </div>
 </div>
@@ -107,6 +302,12 @@
         opt.classList.remove('active');
       }
     });
+  }
+
+  function checkSelection(form) {
+    const submitButton = form.querySelector('.submit-button');
+    const isChecked = form.querySelector('input[type="radio"]:checked') !== null;
+    submitButton.disabled = !isChecked;
   }
 </script>
 
